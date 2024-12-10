@@ -1,0 +1,21 @@
+{
+    "name": "gmstudio/validator",
+    "description": "A simple validator library",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^11.5"
+    },
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "Gmstudio\\Validator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "elbociano7",
+            "email": "dawid@gmstudio24.pl"
+        }
+    ],
+    "require": {}
+}
