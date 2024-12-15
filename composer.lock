@@ -4,8 +4,64 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "788a81d24416d510ecfbbb31918308b7",
-    "packages": [],
+    "content-hash": "01a021adb2d467b7bfefdf444be2b8ef",
+    "packages": [
+        {
+            "name": "pharaonic/php-dot-array",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Pharaonic/php-dot-array.git",
+                "reference": "b4adab4306053527a3edeb63d691bff3fa0d8d96"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Pharaonic/php-dot-array/zipball/b4adab4306053527a3edeb63d691bff3fa0d8d96",
+                "reference": "b4adab4306053527a3edeb63d691bff3fa0d8d96",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helper.php"
+                ],
+                "psr-4": {
+                    "Pharaonic\\DotArray\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Raggi",
+                    "email": "raggigroup@gmail.com"
+                }
+            ],
+            "description": "Access array data quickly/easily using dot-notation and asterisk.",
+            "keywords": [
+                "array",
+                "asterisk",
+                "dot notation",
+                "pharaonic",
+                "php",
+                "php array",
+                "php dot array"
+            ],
+            "support": {
+                "issues": "https://github.com/Pharaonic/php-dot-array/issues",
+                "source": "https://github.com/Pharaonic/php-dot-array/tree/2.0.0"
+            },
+            "time": "2023-05-13T17:03:04+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "myclabs/deep-copy",

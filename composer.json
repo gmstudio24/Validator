@@ -17,5 +17,7 @@
             "email": "dawid@gmstudio24.pl"
         }
     ],
-    "require": {}
+    "require": {
+        "pharaonic/php-dot-array": "^2.0"
+    }
 }
