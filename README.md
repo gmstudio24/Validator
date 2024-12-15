@@ -26,7 +26,7 @@ Usage:
   $node->key('bar.*')->test('isNotNull');
   $node->key('foobar')->test('isEqual', 3);
 
-  //validate
+  //validate all preset rules
   $result = $node->validate();
 
   //display errors
