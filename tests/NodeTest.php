@@ -31,32 +31,72 @@ final class NodeTest extends TestCase {
     $this->assertSameSize([1], $result->getErrors(), $result->errorsToString());
   }
 
-  public function testNodeBasicTests() {
-    error_reporting(E_ALL);
-
-    $types = [
-      'string' => 'test',
-      'int' => 1,
-      'bool' => true,
-      'true' => true,
-      'false' => false,
-      'null' => null,
-      'array' => [1],
+  public function testNodeArrayAsteriskAccess() {
+    $data = [
+      'key1' => [
+        'sub1' => [
+          'foo' => 'bar',
+          'bar' => 'baz'
+        ],
+        'sub2' => [
+          'foo' => 'bar',
+          'bar' => 'bay'
+        ]
+      ],
+      'key2' => [
+        'sub1' => [
+          'foo' => 'bay',
+          'bar' => 'baz',
+        ],
+        'sub2' => [
+          'foo' => 'bar',
+          'bar' => 'baz'
+        ]
+      ],
+      'key3' => [
+        'sub1' => '1'
+      ]
     ];
-    $custom = [
-      'emptyString' => '',
-      'emptyArray' => [],
-      'numeric' => '123',
-    ];
 
-    $tests = $types + $custom;
+    $validator = new Validator($data);
 
-    foreach($tests as $key => $type) {
-      $node = (new Validator($type))->getNode();
-      $key = ucfirst($key);
-      $node->test("is{$key}");
-      $v = $node->validate();
-      $this->assertTrue($v->passed(), $v->errorsToString());
-    }
+    $node = $validator->getNode()->ensureArray();
+
+    $node->key('key1.*.foo')->test('isEqual', 'bar');
+    
+    $this->assertTrue($node->validate()->passed());
+
+
+    $node2 = $validator->getNode()->ensureArray();
+
+    $node2->key('key2.*.foo')->test('isEqual', 'bar');
+
+    $this->assertFalse($node2->validate()->passed());
   }
+
+  public function testNodeBasicTests() {
+
+    $data = [
+      'equal1' => 1,
+      'equal2' => '1',
+      'equal3' => 2,
+      'equal4' => '2',
+    ];
+
+
+    $validator = new Validator($data);
+
+    $node = $validator->getNode()->ensureArray();
+    $node2 = $validator->getNode()->ensureArray();
+
+    $node->key('equal1')->test('isEqual', 1);
+    $node->key('equal2')->test('isEqual', 1);
+    $node2->key('equal3')->test('isStrictEqual', 2);
+    $node2->key('equal4')->test('isStrictEqual', 2);
+
+    $this->assertTrue($node->validate()->passed());
+    $this->assertFalse($node2->validate()->passed());
+  }
+
+  
 }

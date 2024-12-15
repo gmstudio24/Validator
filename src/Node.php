@@ -7,6 +7,7 @@ use Gmstudio\Validator\Tests\IsBool;
 use Gmstudio\Validator\Tests\IsEmptyArray;
 use Gmstudio\Validator\Tests\IsEmptyString;
 use Gmstudio\Validator\Tests\IsFalse;
+use Gmstudio\Validator\Tests\IsFloat;
 use Gmstudio\Validator\Tests\IsInt;
 use Gmstudio\Validator\Tests\IsNull;
 use Gmstudio\Validator\Tests\IsNumeric;
@@ -14,7 +15,7 @@ use Gmstudio\Validator\Tests\IsStrictEqual;
 use Gmstudio\Validator\Tests\IsString;
 use Gmstudio\Validator\Tests\IsTrue;
 use Gmstudio\Validator\Tests\Test;
-use PHPUnit\Framework\Constraint\IsEqual;
+use Gmstudio\Validator\Tests\IsEqual;
 
 /**
  * Node is a object containing data to test on.
@@ -34,6 +35,7 @@ class Node{
     'isString' => IsString::class,
     'isNumeric' => IsNumeric::class,
     'isInt' => IsInt::class,
+    'isFloat' => IsFloat::class,
     'isBool' => IsBool::class,
     'isEmptyArray' => IsEmptyArray::class,
     'isEmptyString' => IsEmptyString::class,
@@ -144,15 +146,25 @@ class Node{
   public function test(string $test_name, mixed ...$params) {
     if(!key_exists($test_name, $this->test_map)) 
       $this->setInactive(new ValidationError("Test {$test_name} does not exist."));
+    if($this->isInactive())
+      return;
     if($this->pointers === []) {
       $this->performTest($test_name, $this->getData(), $params);
     } else {
       foreach($this->pointers as $pointer) {
-        $this->performTest($test_name, $pointer, ...$params);
+        $this->performTest($test_name, $pointer, $params);
       }
     }
   }
-
+  
+  /**
+   * perform a test by test_name
+   *
+   * @param  mixed $test_name
+   * @param  mixed $data
+   * @param  mixed $params
+   * @return void
+   */
   private function performTest($test_name, $data, ?array $params) {
     $test_class = $this->test_map[$test_name];
         $test = new $test_class();
@@ -170,6 +182,7 @@ class Node{
    * @return ValidationResult
    */
   public function validate(): ValidationResult {
+
     foreach($this->tests as $test) {
       if(!$test->validate()) {
         $this->setInactive($test->getError());
@@ -179,6 +192,21 @@ class Node{
     return new ValidationResult(!$this->isInactive(), $this->getErrors());
   }
   
+  /**
+   * Select all data
+   *
+   * @return self
+   */
+  public function all() {
+    $this->clearPointers();
+
+    if($this->isInactive()) return $this;
+
+    $this->pointers[] = $this->getData();
+
+    return $this;
+  }
+
   /**
    * Adds new array key to a node's pointers (tested datapoints) only if node 
    * state is not alreaty inactive. Clears pointers on every use.
@@ -196,17 +224,24 @@ class Node{
       # for each key make a new data endpoint and add to pointers;
       foreach($key as $single_key) {
         if(dot($data)->has($single_key))
-          $this->pointers[] = dot($data)->get($single_key);
+          $this->pointers[] = 
+            str_contains($single_key, '*') 
+            ? dot($data)->get($single_key) 
+            : [dot($data)->get($single_key)];
         else
           $this->setInactive(
             new ValidationError("Key `{$single_key}` does not exist"));
       }
     } else {
-      if(dot($data)->has($key))
-        $this->pointers[] = dot($data)->get($key);
-      else
-        $this->setInactive(
+      if(dot($data)->has($key)) {
+        $value = str_contains($key, '*') 
+        ? dot($data)->get($key) 
+        : [dot($data)->get($key)];
+        $this->pointers = $value;
+
+      } else { $this->setInactive(
           new ValidationError("Key `{$key}` does not exist"));
+      }
     }
     return $this;
   }

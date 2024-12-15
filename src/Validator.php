@@ -38,6 +38,8 @@ class Validator {
   public function getNode() {
     return new Node($this->getData());
   }
+  
+  
 
 }
 

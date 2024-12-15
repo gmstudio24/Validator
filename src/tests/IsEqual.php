@@ -4,7 +4,7 @@ namespace Gmstudio\Validator\Tests;
 
 use Gmstudio\Validator\TestException;
 
-class IsFalse extends Test {
+class IsEqual extends Test {
 
   protected $error_message = "Value is not equal";
 
@@ -12,6 +12,7 @@ class IsFalse extends Test {
     if($data === []) {
       throw new TestException("Data cannot be an empty array");
     }
+
     $v = $data[0];
 
     foreach($data as $val) {

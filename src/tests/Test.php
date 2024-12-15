@@ -19,10 +19,11 @@ abstract class Test {
    * Sets test data
    *
    * @param  mixed $data
-   * @return void
+   * @return self
    */
   public function setData(mixed ...$data) {
     $this->data = $data;
+    return $this;
   }
   
   /**
