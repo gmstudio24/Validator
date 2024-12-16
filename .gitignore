@@ -1,4 +1,4 @@
-/vendor/
+/vendor
 /tests/web.php
-/dev/
-/.vscode/
+/dev
+/.vscode

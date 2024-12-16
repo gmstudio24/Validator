@@ -13,8 +13,6 @@ class IsOneOf extends Test {
       throw new TestException("To less data to test");
     }
 
-    
-
     $pattern = $data[0];
     unset($data[0]);
 
