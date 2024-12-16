@@ -5,8 +5,6 @@ use Gmstudio\Validator\ValidationResult;
 use Gmstudio\Validator\Validator;
 use PHPUnit\Framework\TestCase;
 
-use function PHPUnit\Framework\assertTrue;
-
 final class NodeTest extends TestCase {
 
   public function testNodeArrayAccess() {
@@ -96,6 +94,10 @@ final class NodeTest extends TestCase {
 
     $this->assertTrue($node->validate()->passed());
     $this->assertFalse($node2->validate()->passed());
+
+    $node->key('equal5');
+
+    $this->assertFalse($node->validate()->passed());
   }
 
   

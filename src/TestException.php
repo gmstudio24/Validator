@@ -2,7 +2,9 @@
 
 namespace Gmstudio\Validator;
 
-class TestException {
+use Exception;
+
+class TestException extends Exception {
   
   
   

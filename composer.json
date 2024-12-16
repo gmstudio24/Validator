@@ -2,7 +2,7 @@
     "name": "gmstudio/validator",
     "description": "A simple validator library",
     "type": "library",
-    "version": "v1.0-BETA",
+    "version": "v1.1-BETA",
     "require-dev": {
         "phpunit/phpunit": "^11.5"
     },
@@ -15,7 +15,8 @@
     "authors": [
         {
             "name": "elbociano7",
-            "email": "dawid@gmstudio24.pl"
+            "email": "dawid@gmstudio24.pl",
+            "role": "dev"
         }
     ],
     "require": {

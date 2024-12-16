@@ -1,5 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
+use Gmstudio\Validator\Tests\Has;
 use Gmstudio\Validator\Tests\IsArray;
 use Gmstudio\Validator\Tests\IsBool;
 use Gmstudio\Validator\Tests\IsEmptyArray;
@@ -11,6 +12,7 @@ use Gmstudio\Validator\Tests\IsNull;
 use Gmstudio\Validator\Tests\IsNumeric;
 use Gmstudio\Validator\Tests\IsStrictEqual;
 use Gmstudio\Validator\Tests\IsEqual;
+use Gmstudio\Validator\Tests\IsOneOf;
 use Gmstudio\Validator\Tests\IsString;
 use Gmstudio\Validator\Tests\IsTrue;
 use PHPUnit\Framework\TestCase;
@@ -158,5 +160,48 @@ final class TestsTest extends TestCase {
         [0, true, 1, null]
       )
     );
+  }
+
+  public function testIsOneOf() {
+    $test = new IsOneOf();
+
+    $test->setData('bar', 'bar', 'foo', 2, null);
+    $this->assertTrue($test->validate());
+
+    $test = new IsOneOf();
+    $test->setData(true, 1, 'bar', 'foo', 3.3, false);
+    $this->assertFalse($test->validate());
+
+  }
+
+  public function testHas() {
+
+    $data = [
+      'foo' => [
+        'bar' => [
+          'baz' => '2',
+          'bay' => 3,
+        ],
+        'fee' => [
+          'baz' => false,
+        ]
+      ]
+    ];
+
+    $test  = new Has();
+    $test2 = new Has();
+    $test3 = new Has();
+    $test4 = new Has();
+
+    $test->setData($data, 'foo.*.baz', 'foo');
+    $test2->setData($data, 'foo.*.bay', 'foo');
+    $test3->setData($data, 'foo.bar');
+    $test4->setData($data, 'foo.ee');
+
+    $this->assertTrue($test->validate());
+    $this->assertFalse($test2->validate());
+    $this->assertTrue($test3->validate());
+    $this->assertFalse($test4->validate());
+
   }
 }

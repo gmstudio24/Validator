@@ -16,6 +16,8 @@ use Gmstudio\Validator\Tests\IsString;
 use Gmstudio\Validator\Tests\IsTrue;
 use Gmstudio\Validator\Tests\Test;
 use Gmstudio\Validator\Tests\IsEqual;
+use Gmstudio\Validator\Tests\IsOneOf;
+use Gmstudio\Validator\Tests\Has;
 
 /**
  * Node is a object containing data to test on.
@@ -44,6 +46,8 @@ class Node{
     'isTrue' => IsTrue::class,
     'isStrictEqual' => IsStrictEqual::class,
     'isNull' => IsNull::class,
+    'isOneOf' => IsOneOf::class,
+    'has' => Has::class,
   ];
   
   /**
